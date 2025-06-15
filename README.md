@@ -1,8 +1,8 @@
 # Sensitive Content Scanner GitHub Action
 
-[![GitHub release](https://img.shields.io/github/v/release/your-username/sensitive-scanner-action)](https://github.com/your-username/sensitive-scanner-action/releases)
+[![GitHub release](https://img.shields.io/github/v/release/windyinwind/sensitive-scanner-action)](https://github.com/windyinwind/sensitive-scanner-action/releases)
 [![GitHub marketplace](https://img.shields.io/badge/marketplace-sensitive--content--scanner-blue?logo=github)](https://github.com/marketplace/actions/sensitive-content-scanner)
-[![CI](https://github.com/your-username/sensitive-scanner-action/workflows/CI/badge.svg)](https://github.com/your-username/sensitive-scanner-action/actions)
+[![CI](https://github.com/windyinwind/sensitive-scanner-action/workflows/CI/badge.svg)](https://github.com/windyinwind/sensitive-scanner-action/actions)
 
 A GitHub Action that automatically scans pull requests for sensitive content, including secrets, credentials, and potentially harmful code patterns. It helps prevent accidental exposure of sensitive information in your codebase.
 
@@ -30,7 +30,7 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: your-username/sensitive-scanner-action@v1
+      - uses: windyinwind/sensitive-scanner-action@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -59,14 +59,14 @@ jobs:
 
 ### Basic Usage
 ```yaml
-- uses: your-username/sensitive-scanner-action@v1
+- uses: windyinwind/sensitive-scanner-action@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 ### Advanced Configuration
 ```yaml
-- uses: your-username/sensitive-scanner-action@v1
+- uses: windyinwind/sensitive-scanner-action@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
     sensitive-words-file: '.github/custom-words.txt'
@@ -80,7 +80,7 @@ jobs:
 ```yaml
 - name: Scan for sensitive content
   id: scan
-  uses: your-username/sensitive-scanner-action@v1
+  uses: windyinwind/sensitive-scanner-action@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -157,9 +157,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 💬 Support
 
-- 📖 [Documentation](https://github.com/your-username/sensitive-scanner-action/wiki)
-- 🐛 [Report Issues](https://github.com/your-username/sensitive-scanner-action/issues)
-- 💬 [Discussions](https://github.com/your-username/sensitive-scanner-action/discussions)
+- 📖 [Documentation](https://github.com/windyinwind/sensitive-scanner-action/wiki)
+- 🐛 [Report Issues](https://github.com/windyinwind/sensitive-scanner-action/issues)
+- 💬 [Discussions](https://github.com/windyinwind/sensitive-scanner-action/discussions)
 
 ---
 

@@ -1,0 +1,57 @@
+name: 'Sensitive Content Scanner'
+description: 'Automatically scan pull requests for sensitive words, secrets, and potentially harmful code patterns'
+author: 'Wei Liam <whatswrongbill@gmail.com>'
+
+branding:
+  icon: 'shield'
+  color: 'red'
+
+inputs:
+  github-token:
+    description: 'GitHub token for API access (usually secrets.GITHUB_TOKEN)'
+    required: true
+    default: ${{ github.token }}
+  
+  sensitive-words-file:
+    description: 'Path to file containing sensitive words (one per line). Comments start with #'
+    required: false
+    default: '.github/sensitive-words.txt'
+  
+  custom-patterns:
+    description: 'Additional regex patterns to check (JSON array format, e.g., ["pattern1", "pattern2"])'
+    required: false
+    default: '[]'
+  
+  exclude-files:
+    description: 'File patterns to exclude from scanning (comma-separated, supports wildcards)'
+    required: false
+    default: '*.min.js,*.lock,package-lock.json,yarn.lock,*.map'
+  
+  severity-level:
+    description: 'Minimum severity level to report (low, medium, high)'
+    required: false
+    default: 'medium'
+  
+  fail-on-detection:
+    description: 'Whether to fail the workflow when sensitive content is detected'
+    required: false
+    default: 'true'
+  
+  comment-mode:
+    description: 'How to handle comments (create, update, or none)'
+    required: false
+    default: 'create'
+
+outputs:
+  findings-count:
+    description: 'Number of findings detected'
+  
+  has-high-severity:
+    description: 'Whether high severity issues were found'
+  
+  scan-status:
+    description: 'Overall scan status (passed, failed, or warning)'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

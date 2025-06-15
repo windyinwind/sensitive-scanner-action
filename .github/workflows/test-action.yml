@@ -1,0 +1,18 @@
+name: Test My Action
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Call your action using the local path
+      - name: Test my action
+        uses: ./
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          custom-patterns: '["(?i)todo.*hack", "(?i)fixme.*urgent","maytheforcebewithyou"]'

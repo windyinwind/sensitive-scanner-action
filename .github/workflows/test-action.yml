@@ -15,4 +15,4 @@ jobs:
         uses: ./
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          custom-patterns: '["(?i)todo.*hack", "(?i)fixme.*urgent","maytheforcebewithyou"]'
+          custom-patterns: '["password.*","maytheforcebewithyou"]'

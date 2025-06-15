@@ -2,7 +2,6 @@
 
 [![GitHub release](https://img.shields.io/github/v/release/windyinwind/sensitive-scanner-action)](https://github.com/windyinwind/sensitive-scanner-action/releases)
 [![GitHub marketplace](https://img.shields.io/badge/marketplace-sensitive--content--scanner-blue?logo=github)](https://github.com/marketplace/actions/sensitive-content-scanner)
-[![CI](https://github.com/windyinwind/sensitive-scanner-action/workflows/CI/badge.svg)](https://github.com/windyinwind/sensitive-scanner-action/actions)
 
 A GitHub Action that automatically scans pull requests for sensitive content, including secrets, credentials, and potentially harmful code patterns. It helps prevent accidental exposure of sensitive information in your codebase.
 

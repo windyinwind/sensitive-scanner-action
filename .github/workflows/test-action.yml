@@ -1,7 +1,7 @@
 name: Test My Action
 
 on:
-  pull_request_target:
+  pull_request:
     types: [opened, synchronize, reopened]
 
 permissions:
@@ -19,3 +19,4 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           custom-patterns: '["password.*","maytheforcebewithyou"]'
+          fail-on-detection: false

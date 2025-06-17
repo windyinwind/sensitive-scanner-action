@@ -157,11 +157,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) f
 - [TruffleHog](https://github.com/marketplace/actions/trufflehog-oss) - Secrets scanner
 - [Semgrep](https://github.com/marketplace/actions/semgrep) - Static analysis tool
 
-## 💬 Support
-
-- 📖 [Documentation](https://github.com/windyinwind/sensitive-scanner-action/wiki)
-- 🐛 [Report Issues](https://github.com/windyinwind/sensitive-scanner-action/issues)
-- 💬 [Discussions](https://github.com/windyinwind/sensitive-scanner-action/discussions)
 
 ---
 

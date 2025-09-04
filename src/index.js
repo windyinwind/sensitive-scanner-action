@@ -19,6 +19,7 @@ const SENSITIVE_PATTERNS = {
       /xoxb-[0-9]{11}-[0-9]{11}-[a-zA-Z0-9]{24}/g, // Slack tokens
       /ya29\.[a-zA-Z0-9_-]{100,}/g, // Google OAuth tokens
       /AKIA[0-9A-Z]{16}/g, // AWS Access Key ID
+      /([a-zA-Z0-9_=]+)\.([a-zA-Z0-9_=]+)\.([a-zA-Z0-9_\-\+\/=]*)/g, // JWT tokens
     ],
     severity: 'high',
     description: 'Potential secrets or credentials'

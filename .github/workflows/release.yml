@@ -14,7 +14,10 @@ on:
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
-    
+    # expose the release upload_url so downstream jobs can use it
+    outputs:
+      upload_url: ${{ steps.get_release.outputs.upload_url }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,7 +42,24 @@ jobs:
       - name: Package
         run: npm run package
 
+      - name: Check if release exists
+        id: check_release
+        env:
+          TAG: ${{ github.ref_name || github.event.inputs.version }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Checking for release $TAG"
+          resp=$(curl -s -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/tags/$TAG")
+          if echo "$resp" | grep -q '"message": "Not Found"'; then
+            echo "exists=false" >> $GITHUB_OUTPUT
+          else
+            echo "exists=true" >> $GITHUB_OUTPUT
+          fi
+
       - name: Create Release
+        id: create_release
+        if: steps.check_release.outputs.exists == 'false'
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -67,12 +87,32 @@ jobs:
 
       - name: Update major version tag
         run: |
+          # Accept either "v1.2.3" or "1.2.3" and always push a "v<MAJOR>" tag (e.g. v1)
           VERSION=${{ github.ref_name || github.event.inputs.version }}
-          MAJOR_VERSION=$(echo $VERSION | cut -d. -f1)
+          STRIPPED=${VERSION#v}
+          MAJOR_NUMBER=$(echo "$STRIPPED" | cut -d. -f1)
+          MAJOR_TAG="v${MAJOR_NUMBER}"
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git tag -fa $MAJOR_VERSION -m "Update $MAJOR_VERSION tag"
-          git push origin $MAJOR_VERSION --force
+          git tag -fa "$MAJOR_TAG" -m "Update $MAJOR_TAG tag"
+          git push origin "$MAJOR_TAG" --force
+
+      - name: Get release info (upload_url)
+        id: get_release
+        env:
+          TAG: ${{ github.ref_name || github.event.inputs.version }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          resp=$(curl -s -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/tags/$TAG")
+          # extract upload_url using Python to avoid depending on jq
+          upload_url=$(python - <<'PY'
+import sys, json
+data = json.load(sys.stdin)
+print(data.get("upload_url", ""))
+PY
+<<<"$resp")
+          echo "upload_url=$upload_url" >> $GITHUB_OUTPUT
 
   marketplace:
     needs: build-and-release
@@ -88,7 +128,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ needs.build-and-release.outputs.upload_url }}
           asset_path: ./action.yml
           asset_name: action.yml
           asset_content_type: text/yaml
